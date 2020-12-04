@@ -346,10 +346,10 @@ define('modules/vivint-operations',['ui.api.v1',
 
                             // retry up to 3 times for ivr message
                             if (!resultObject || resultObject.success == 'false') {
-                                if (attempt <= 3) {
+                                if (attempt <= 4) {
                                     setTimeout(function() {
                                         me.sendPaymentIVRResponse(callSessionId, ++attempt);
-                                    }, 1000);
+                                    }, 2000);
                                 } else {
                                     me.log('VivintOperations', 'sendPaymentIVRResponse',
                                         'runApex(getMessage) failed after ' + attempt + ' attempts');
