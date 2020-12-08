@@ -348,6 +348,7 @@ define('modules/vivint-operations',['ui.api.v1',
                             if (!resultObject || resultObject.success == 'false') {
                                 if (attempt <= 4) {
                                     setTimeout(function() {
+                                        console.log('CallSessionId: ' + callSessionId);
                                         me.sendPaymentIVRResponse(callSessionId, ++attempt);
                                     }, 2000);
                                 } else {
