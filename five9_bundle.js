@@ -315,6 +315,16 @@ define('modules/vivint-operations',['ui.api.v1',
                 //_model.set('callStatusPingResponded', false);
             },
 
+            getPaymentIVRResponse: function(callSessionId) {
+              $.ajax({
+                url: 'https://ecomm-svc-dev.vivint.com/f1/Payment/GetIVRPaymentResponse?sessionId=' + callSessionId,
+                type: 'get',
+                success: function (response) {
+                  return response.data;
+                }
+              })
+            },
+
             sendPaymentIVRResponse: function(callSessionId, attempt) {
                 attempt = attempt || 1;
                 UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'attempt: ' + attempt);
@@ -348,7 +358,6 @@ define('modules/vivint-operations',['ui.api.v1',
                             if (!resultObject || resultObject.success == 'false') {
                                 if (attempt <= 4) {
                                     setTimeout(function() {
-                                        console.log('CallSessionId: ' + callSessionId);
                                         me.sendPaymentIVRResponse(callSessionId, ++attempt);
                                     }, 2000);
                                 } else {
@@ -375,7 +384,8 @@ define('modules/vivint-operations',['ui.api.v1',
                         }                        
                     };
 
-                    UiApi.getSFApiWrapper().runApex('Five9PSRestService', 'getMessage', query, _.bind(callback, me));
+                    //UiApi.getSFApiWrapper().runApex('Five9PSRestService', 'getMessage', query, _.bind(callback, me));
+                    me.getPaymentIVRResponse(callSessionId);
 
                 } catch (e) {
                     UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'runApex(getMessage) exception: '+ e.message);
