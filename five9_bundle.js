@@ -317,12 +317,16 @@ define('modules/vivint-operations',['ui.api.v1',
 
             getPaymentIVRResponse: function(callSessionId) {
               var ecommURL = "https://ecomm-svc-dev.vivint.com/f1/Payment/GetIVRPaymentResponse/" + callSessionId;
-              console.log("EcommURL: ", ecommURL);
               $.ajax({
                 url: ecommURL,
                 type: 'get',
                 success: function (response) {
+                  UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'runApex(getMessage) error: ' + response);
                   return response.data;
+                },
+                error: function(data) {
+                  UiApi.log('VivintOperations', 'getPaymentIVRResponse', 'getMessage error: ' + data);
+                  return undefined;
                 }
               })
             },
@@ -386,7 +390,6 @@ define('modules/vivint-operations',['ui.api.v1',
                         }                        
                     };
 
-                    //UiApi.getSFApiWrapper().runApex('Five9PSRestService', 'getMessage', query, _.bind(callback, me));
                     me.getPaymentIVRResponse(callSessionId);
 
                 } catch (e) {
