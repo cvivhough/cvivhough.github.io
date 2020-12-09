@@ -452,7 +452,8 @@ define('modules/vivint-operations',['ui.api.v1',
                         window.parent.postMessage(postmsg, '*');
                     };
 
-                    UiApi.getSFApiWrapper().runApex('Five9PSRestService', 'getMessage', query, _.bind(callback, me));
+                    // UiApi.getSFApiWrapper().runApex('Five9PSRestService', 'getMessage', query, _.bind(callback, me));
+                    me.getPaymentIVRResponse(callSessionId);
 
                 } catch (e) {
                     UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse', 'runApex(getMessage) exception: '+ e.message);
