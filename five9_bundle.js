@@ -331,7 +331,8 @@ define('modules/vivint-operations',['ui.api.v1',
                     }
                     return;
                   }
-                  return { result: JSON.stringify(response) };
+                  var result = JSON.stringify(response);
+                  return result;
                 },
                 error: function(data, status) {
                   if (status === 'timeout') {
