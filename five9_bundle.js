@@ -317,7 +317,6 @@ define('modules/vivint-operations',['ui.api.v1',
 
             getPaymentIVRResponse: function(callSessionId) {
               var ecommURL = "https://ecomm-svc-dev.vivint.com/f1/Payment/GetIVRPaymentResponse/" + callSessionId;
-              var me = this;
               $.ajax({
                 url: ecommURL,
                 type: 'get',
@@ -326,7 +325,7 @@ define('modules/vivint-operations',['ui.api.v1',
                   return response.data;
                 },
                 error: function(data) {
-                  me.log('VivintOperations', 'getPaymentIVRResponse', 'getMessage error: ' + data);
+                  UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'getMessage error: ' + data);
                   return undefined;
                 }
               })
