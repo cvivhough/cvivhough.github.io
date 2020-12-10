@@ -317,12 +317,12 @@ define('modules/vivint-operations',['ui.api.v1',
 
             getPaymentIVRResponse: function(callSessionId) {
               var ecommURL = "https://ecomm-svc-dev.vivint.com/f1/Payment/GetIVRPaymentResponse/" + callSessionId;
-              $.ajax({
+              return $.ajax({
                 url: ecommURL,
                 type: 'get',
                 success: function (response) {
                   UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'getMessage response ' + JSON.stringify(response));
-                  return response;
+                  return { result: response };
                 },
                 error: function(data) {
                   UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'getMessage error: ' + data);
@@ -390,7 +390,9 @@ define('modules/vivint-operations',['ui.api.v1',
                         }                        
                     };
 
-                    me.getPaymentIVRResponse(callSessionId);
+                    me.getPaymentIVRResponse(callSessionId).then(data => {
+                      console.log("sendPaymentIVRResponse data: ", data);
+                    });
 
                 } catch (e) {
                     UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'runApex(getMessage) exception: '+ e.message);
@@ -452,7 +454,9 @@ define('modules/vivint-operations',['ui.api.v1',
                     };
 
                     // UiApi.getSFApiWrapper().runApex('Five9PSRestService', 'getMessage', query, _.bind(callback, me));
-                    me.getPaymentIVRResponse(callSessionId);
+                    me.getPaymentIVRResponse(callSessionId).then(data => {
+                      console.log("sendDisclosureIVRResponse Data: ", data);
+                    });
 
                 } catch (e) {
                     UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse', 'runApex(getMessage) exception: '+ e.message);
