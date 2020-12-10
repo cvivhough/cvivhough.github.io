@@ -321,8 +321,8 @@ define('modules/vivint-operations',['ui.api.v1',
                 url: ecommURL,
                 type: 'get',
                 success: function (response) {
-                  UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'runApex(getMessage) error: ' + response);
-                  return response.data;
+                  UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'getMessage response ' + JSON.stringify(response));
+                  return response;
                 },
                 error: function(data) {
                   UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'getMessage error: ' + data);
