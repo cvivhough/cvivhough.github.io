@@ -331,8 +331,7 @@ define('modules/vivint-operations',['ui.api.v1',
                     }
                     return;
                   }
-                  var result = JSON.stringify(response);
-                  return result;
+                  return response;
                 },
                 error: function(data, status) {
                   if (status === 'timeout') {
@@ -412,7 +411,7 @@ define('modules/vivint-operations',['ui.api.v1',
                       var resultObject, postData;
                         if (response.result) {
                             try {
-                                resultObject = JSON.parse(response.result);
+                                resultObject = response.result;
                             } catch (e1) {
                                 UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'resultObject exception: '+ e1.message);
                             }
@@ -518,7 +517,7 @@ define('modules/vivint-operations',['ui.api.v1',
                       var resultObject, postData;
                         if (response.result) {
                             try {
-                                resultObject = JSON.parse(response.result);
+                                resultObject = response.result;
                             } catch (e1) {
                                 UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse', 'resultObject exception: '+ e1.message);
                             }
