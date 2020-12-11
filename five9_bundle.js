@@ -323,10 +323,12 @@ define('modules/vivint-operations',['ui.api.v1',
                 tryCount: 0,
                 retryLimit: 3,
                 success: function (response) {
-                  UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'getMessage response ' + JSON.stringify(response));
+                  UiApi.Logger.debug('VivintOperations', 'getPaymentIVRResponse', 'getMessage response ' + response);
                   if (!response || response === null) {
                     if (this.tryCount <= this.retryLimit) {
-                      $.ajax(this);
+                      setTimeout(function() {
+                        $.ajax(this);
+                      }, 2000);
                       return;
                     }
                     return;
@@ -356,57 +358,6 @@ define('modules/vivint-operations',['ui.api.v1',
                     var me = this;
                     // GTS: 1.3.3
                     var parent_frame = window.parent;
-                    var query = 'callSessionID=' + callSessionId;
-                    // var callback = function(response) {
-                    //     var resultObject, postData;
-                    //     if (response.result) {
-                    //         try {
-                    //             resultObject = JSON.parse(response.result);
-                    //         } catch (e1) {
-                    //             UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'resultObject exception: '+ e1.message);
-                    //         }
-
-                    //         try {
-                    //             postData = JSON.parse(resultObject.message);
-                    //         } catch (e2) {
-                    //             UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'postData exception: '+ e2.message);
-                    //             // message
-                    //             postData = { error: resultObject.message };
-                    //         }
-
-                    //         UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse',
-                    //             'runApex(getMessage) result: ' + response.result);
-
-                    //         // retry up to 3 times for ivr message
-                    //         if (!resultObject || resultObject.success == 'false') {
-                    //             if (attempt <= 4) {
-                    //                 setTimeout(function() {
-                    //                     me.sendPaymentIVRResponse(callSessionId, ++attempt);
-                    //                 }, 2000);
-                    //             } else {
-                    //                 me.log('VivintOperations', 'sendPaymentIVRResponse',
-                    //                     'runApex(getMessage) failed after ' + attempt + ' attempts');
-                    //             }
-                    //         }
-                    //         // if (resultObject.success == 'true' || attempt > 3) { // only send response if message found or tried 3 times
-                    //         //     var postmsg = { cmd: 'paymentIVRResponse', data: postData };
-                    //         //     UiApi.Logger.debug('VivintOperations', 'postMessage', JSON.stringify(postmsg));
-                    //         // }
-                    //     } else {
-                    //         UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'runApex(getMessage) error: ' + response);
-                    //         postData = { error: true, message: response };
-                    //     }
-
-                    //     var postmsg = { cmd: 'paymentIVRResponse', data: postData };
-                    //     UiApi.Logger.debug('VivintOperations', 'postMessage', JSON.stringify(postmsg));
-                    //     // GTS: 1.3.3
-                    //     //window.top.postMessage(postmsg, '*');
-                    //     parent_frame.postMessage(postmsg, '*');
-                    //     for (var i = 0; i < parent_frame.length; i++) {
-                    //       parent_frame[i].postMessage(postmsg, '*');
-                    //     }                        
-                    // };
-
                     me.getPaymentIVRResponse(callSessionId).then(response => {
                       var resultObject, postData;
                         if (response.result) {
@@ -426,18 +377,6 @@ define('modules/vivint-operations',['ui.api.v1',
 
                             UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse',
                                 'runApex(getMessage) result: ' + response.result);
-
-                            // // retry up to 3 times for ivr message
-                            // if (!resultObject || resultObject.success == 'false') {
-                            //     if (attempt <= 4) {
-                            //         setTimeout(function() {
-                            //             me.sendPaymentIVRResponse(callSessionId, ++attempt);
-                            //         }, 2000);
-                            //     } else {
-                            //         me.log('VivintOperations', 'sendPaymentIVRResponse',
-                            //             'runApex(getMessage) failed after ' + attempt + ' attempts');
-                            //     }
-                            // }
                         } else {
                             UiApi.Logger.debug('VivintOperations', 'sendPaymentIVRResponse', 'runApex(getMessage) error: ' + response);
                             postData = { error: true, message: response };
@@ -463,55 +402,6 @@ define('modules/vivint-operations',['ui.api.v1',
 
                 try {
                     var me = this;
-                    var query = 'callSessionID=' + callSessionId;
-                    // var callback = function(response) {
-                    //     var resultObject, postData;
-                    //     if (response.result) {
-                    //         try {
-                    //             resultObject = JSON.parse(response.result);
-                    //         } catch (e1) {
-                    //             UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse', 'resultObject exception: '+ e1.message);
-                    //         }
-
-                    //         try {
-                    //             postData = JSON.parse(resultObject.message);
-                    //         } catch (e2) {
-                    //             UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse', 'postData exception: '+ e2.message);
-                    //             // message
-                    //             postData = { error: resultObject.message };
-                    //         }
-
-                    //         UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse',
-                    //             'runApex(getMessage) result: ' + response.result);
-
-                    //         // retry up to 3 times for ivr message
-                    //         if (!resultObject || resultObject.success == 'false') {
-                    //             if (attempt <= 3) {
-                    //                 setTimeout(function() {
-                    //                     me.sendDisclosureIVRResponse(callSessionId, ++attempt);
-                    //                 }, 1000);
-                    //             } else {
-                    //                 me.log('VivintOperations', 'sendDisclosureIVRResponse',
-                    //                     'runApex(getMessage) failed after ' + attempt + ' attempts');
-                    //             }
-                    //         }
-                    //         // if (resultObject.success == 'true' || attempt > 3) { // only send response if message found or tried 3 times
-                    //         //     var postmsg = { cmd: 'paymentIVRResponse', data: postData };
-                    //         //     UiApi.Logger.debug('VivintOperations', 'postMessage', JSON.stringify(postmsg));
-                    //         // }
-                    //     } else {
-                    //         UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse', 'runApex(getMessage) error: ' + response);
-                    //         postData = { error: true, message: response };
-                    //     }
-
-                    //     var postmsg = { cmd: 'paymentIVRResponse', data: postData };
-                    //     UiApi.Logger.debug('VivintOperations', 'postMessage', JSON.stringify(postmsg));
-                    //     // GTS: 1.3.3
-                    //     //window.top.postMessage(postmsg, '*');
-                    //     window.parent.postMessage(postmsg, '*');
-                    // };
-
-                    // UiApi.getSFApiWrapper().runApex('Five9PSRestService', 'getMessage', query, _.bind(callback, me));
                     me.getPaymentIVRResponse(callSessionId).then(response => {
                       console.log("sendDisclosureIVRResponse Data: ", response);
                       var resultObject, postData;
@@ -532,18 +422,6 @@ define('modules/vivint-operations',['ui.api.v1',
 
                             UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse',
                                 'runApex(getMessage) result: ' + response.result);
-
-                            // // retry up to 3 times for ivr message
-                            // if (!resultObject || resultObject.success == 'false') {
-                            //     if (attempt <= 3) {
-                            //         setTimeout(function() {
-                            //             me.sendDisclosureIVRResponse(callSessionId, ++attempt);
-                            //         }, 1000);
-                            //     } else {
-                            //         me.log('VivintOperations', 'sendDisclosureIVRResponse',
-                            //             'runApex(getMessage) failed after ' + attempt + ' attempts');
-                            //     }
-                            // }
                         } else {
                             UiApi.Logger.debug('VivintOperations', 'sendDisclosureIVRResponse', 'runApex(getMessage) error: ' + response);
                             postData = { error: true, message: response };
