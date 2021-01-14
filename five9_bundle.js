@@ -316,7 +316,7 @@ define('modules/vivint-operations',['ui.api.v1',
             },
 
             getPaymentIVRResponse: function(callSessionId) {
-              var ecommURL = "https://ecomm-svc-stg.vivint.com/Payment/GetIVRPaymentResponse/" + callSessionId;
+              var ecommURL = "https://ecomm-svc-dev.vivint.com/Payment/GetIVRPaymentResponse/" + callSessionId;
               return $.ajax({
                 url: ecommURL,
                 type: 'get',
